@@ -1,3 +1,4 @@
+import  'dotenv/config'
 import express from 'express'
 const servidor = express()
 
@@ -5,4 +6,4 @@ servidor.get('/', (req, res):any => {
     return res.send('Servidor está okay!')
 })
 
-servidor.listen()
+servidor.listen(process.env.PORT)
