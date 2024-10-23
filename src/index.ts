@@ -1,32 +1,17 @@
 import  'dotenv/config'
 import express from 'express'
+import {itemProdutos, buscarUsuario, buscarUsuarioQuery,} from './controladores'
+import {intermediárioGeral, primeirointermediario} from './intermediarios'
+
 const servidor = express()
 
-
-const pessoas = [
-    {nome: 'rafael', email:'rafael@email.com'},
-    {nome: 'joão', email:'joao@email.com'},
-    {nome: 'maria', email:'maria@email.com'},
-]
-
-servidor.get('/usuario/:nome', (req, res):any => {
-    const { nome } = req.params
-    const pessoa = pessoas.find(item => {
-        return item.nome === nome
-    })
-    
-    if (!pessoa) {
-        return res.send('pessoa não encontrada')
-    }
-
-    return res.send(pessoa)
-})
+servidor.use(intermediárioGeral)
 
 
-servidor.get('/produtos/:frutas', (req, res):any => {
-    console.log(req.params.frutas);
-    
-    return res.send('Servidor funcionando, programar é legal')
-})
+servidor.get('/produtos/:item', primeirointermediario ,itemProdutos)
+
+servidor.get('/usuario/:email', buscarUsuario)
+
+servidor.get('/usuario',buscarUsuarioQuery)
 
 servidor.listen(process.env.PORT)   
